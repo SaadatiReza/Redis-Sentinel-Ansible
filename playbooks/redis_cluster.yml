@@ -1,0 +1,10 @@
+- name: Configure Redis Cluster
+  hosts: redis
+  roles:
+    - redis
+  tasks:
+    - name: Setup Redis cluster configuration
+      include_role:
+        name: redis
+      vars:
+        redis_setup_type: cluster
