@@ -1,0 +1,10 @@
+- name: Configure Redis Sentinel
+  hosts: sentinel
+  roles:
+    - redis
+  tasks:
+    - name: Setup Redis Sentinel configuration
+      include_role:
+        name: redis
+      vars:
+        redis_setup_type: sentinel
