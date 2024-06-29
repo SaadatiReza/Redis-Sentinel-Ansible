@@ -1,0 +1,5 @@
+- include_tasks: install.yml
+- include_tasks: cluster.yml
+  when: redis_setup_type == "cluster"
+- include_tasks: sentinel.yml
+  when: redis_setup_type == "sentinel"
