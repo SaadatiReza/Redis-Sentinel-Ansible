@@ -4,12 +4,9 @@ bind 0.0.0.0
 supervised systemd
 pidfile "/run/redis/redis-sentinel.pid"
 logfile "/var/log/redis/sentinel.log"
-{% if inventory_hostname == 'redis1' %}
-sentinel monitor mymaster 127.0.0.1 6379 2
-{% else %}
-sentinel monitor mymaster 192.168.5.100 6379 2
-{% endif %}
+sentinel monitor mymaster {{ hostvars[groups['redis'][0]]['ansible_host'] }} 6379 2
 sentinel auth-pass mymaster "{{ redis_password }}"
 sentinel down-after-milliseconds mymaster 5000
 sentinel failover-timeout mymaster 60000
 sentinel parallel-syncs mymaster 1
+

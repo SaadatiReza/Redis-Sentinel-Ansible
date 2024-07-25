@@ -1,8 +1,6 @@
 bind 0.0.0.0
 requirepass "{{ redis_password }}"
-{% if inventory_hostname == 'redis1' %}
 masterauth "{{ redis_password }}"
-{% else %}
-replicaof 192.168.5.100 6379
-masterauth "{{ redis_password }}"
+{% if inventory_hostname != groups['redis'][0] %}
+replicaof {{ hostvars[groups['redis'][0]]['ansible_host'] }} 6379
 {% endif %}
