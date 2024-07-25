@@ -1,0 +1,6 @@
+- hosts: redis
+  become: true
+  roles:
+    - role: common
+    - role: redis
+      #- role: sentinel
