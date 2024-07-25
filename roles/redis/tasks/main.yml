@@ -1,5 +1,21 @@
-- include_tasks: install.yml
-- include_tasks: cluster.yml
-  when: redis_setup_type == "cluster"
-- include_tasks: sentinel.yml
-  when: redis_setup_type == "sentinel"
+- name: Add Redis PPA
+  apt_repository:
+    repo: ppa:redislabs/redis
+    state: present
+
+- name: Install Redis
+  apt:
+    name: redis
+    state: present
+
+- name: Enable Redis service
+  systemd:
+    name: redis-server
+    enabled: yes
+    state: started
+
+- name: Configure Redis
+  template:
+    src: redis.conf.j2
+    dest: /etc/redis/redis.conf
+  notify: restart redis
