@@ -18,4 +18,8 @@
   template:
     src: redis.conf.j2
     dest: /etc/redis/redis.conf
-  notify: restart redis
+  #notify: restart redis
+- name: restart redis
+  systemd:
+    name: redis-server
+    state: restarted
