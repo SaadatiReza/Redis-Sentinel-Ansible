@@ -4,6 +4,12 @@
     dest: /etc/redis/sentinel.conf
   notify: restart sentinel
 
+- name: Change sentinel file permission
+  file:
+    path: /etc/redis/sentinel.conf
+    owner: redis
+    group: redis
+
 - name: Create Redis Sentinel systemd service
   template:
     src: redis-sentinel.service.j2
