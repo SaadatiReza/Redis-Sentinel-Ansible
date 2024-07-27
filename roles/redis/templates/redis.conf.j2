@@ -1,6 +1,34 @@
-bind 0.0.0.0
+bind 0.0.0.0 -::1
 requirepass "{{ redis_password }}"
 masterauth "{{ redis_password }}"
+protected-mode yes
+port 6379
+tcp-backlog 511
+timeout 0
+tcp-keepalive 300
+daemonize yes
+supervised auto
+loglevel notice
+logfile /var/log/redis/redis-server.log
+databases 16
+always-show-logo no
+set-proc-title yes
+proc-title-template "{title} {listen-addr} {server-mode}"
+locale-collate ""
+stop-writes-on-bgsave-error yes
+rdbcompression yes
+rdbchecksum yes
+dbfilename dump.rdb
+rdb-del-sync-files no
+dir /var/lib/redis
+replica-serve-stale-data yes
+replica-read-only yes
+repl-diskless-sync yes
+repl-diskless-sync-delay 5
+repl-diskless-sync-max-replicas 0
+repl-diskless-load disabled
+repl-disable-tcp-nodelay no
+replica-priority 100
 {% if inventory_hostname != groups['redis'][0] %}
 replicaof {{ hostvars[groups['redis'][0]]['ansible_host'] }} 6379
 {% endif %}
